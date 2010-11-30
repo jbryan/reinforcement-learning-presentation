@@ -1,0 +1,97 @@
+% vim:tw=70
+\documentclass{beamer}
+%\documentclass{article}
+%\usepackage{beamerarticle}
+
+\mode<presentation>{\usetheme{Darmstadt}}
+%\usetheme{default}
+%\usetheme{Singapore}
+%\usetheme{Dresden}
+%\usetheme{Luebeck}
+%\usetheme{Antibes}
+%\usetheme{Malmoe}
+
+\mode<presentation>{\usepackage{latex/elephantbird}}
+%\usecolortheme{beetle}
+%\usecolortheme{seahorse}
+%\usecolortheme{dolphin}
+%\usecolortheme{whale}
+%\usecolortheme{fly}
+
+\usepackage{rotating}
+\usepackage[utf8]{inputenc}
+
+\usefonttheme{professionalfonts}
+%\usefonttheme{serif}
+
+\def\nq{\hspace{-1em}}
+\def\look{\(\uparrow\)}
+\def\ignore#1{}
+\def\deltabar{{\delta\!\!\!^{-}}}
+\def\qed{\sqcap\!\!\!\!\sqcup}
+\def\odt{{\textstyle{1\over 2}}}
+\def\odf{{\textstyle{1\over 4}}}
+\def\odA{{\textstyle{1\over A}}}
+\def\hbar{h\!\!\!\!^{-}\,}
+\def\dbar{d\!\!^{-}\!}
+\def\eps{\varepsilon}
+\def\beq{\begin{equation}}
+\def\eeq{\end{equation}}
+\def\beqn{\begin{displaymath}}
+\def\eeqn{\end{displaymath}}
+\def\bqa{\begin{equation}\begin{array}{c}}
+\def\eqa{\end{array}\end{equation}}
+\def\bqan{\begin{displaymath}\begin{array}{c}}
+\def\eqan{\end{array}\end{displaymath}}
+\def\pb{\underline}                       % probability notation
+\def\pb#1{\underline{#1}}                 % probability notation
+\def\blank{{\,_\sqcup\,}}                 % blank position
+\def\maxarg{\mathop{\rm maxarg}}          % maxarg
+\def\minarg{\mathop{\rm minarg}}          % minarg
+\def\hh#1{{\dot{#1}}}                     % historic I/O
+\def\best{*}                              % or {best}
+\def\vec#1{{\bf #1}}
+\def\length{{l}}
+
+\title{Reinforcement Learning}
+\author{Josh Bryan}
+\institute{University of Illinois at Chicago, MCS 548}
+\date{\today}
+
+\begin{document}
+
+\mode<article>{\maketitle}
+
+\section{Introduction}
+\mode<presentation>{
+\subsection{Title}
+\begin{frame}
+	\titlepage
+\end{frame}
+\subsection{Contents}
+\begin{frame}[allowframebreaks]
+	\tableofcontents
+\end{frame}
+}
+
+\mode<article>{
+}
+
+\begin{frame}
+	\frametitle{}
+	\begin{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+
+\section{Conclusions}
+\subsection{Sources}
+\begin{frame}[allowframebreaks]
+	\frametitle{Sources}
+	\bibliography{reinforcement_learning}
+	\bibliographystyle{abbrv}
+\end{frame}
+\end{document}
+

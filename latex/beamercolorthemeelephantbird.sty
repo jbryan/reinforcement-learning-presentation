@@ -1,0 +1,66 @@
+% Copyright 2007 by Till Tantau
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/color/beamercolorthemeelephantbird.sty,v 1.9 2007/01/28 20:48:24 tantau Exp $
+
+
+\mode<presentation>
+
+\newcommand{\uiclogo}{
+%	\includegraphics[scale=0.4]{latex/uic-flame.pdf}
+%	\includegraphics[scale=0.24]{latex/logos/uic-stacked-ostrich.pdf}
+%	\includegraphics[scale=0.4]{latex/logos/uic-vertical.pdf}
+	\includegraphics[scale=0.25]{latex/logos/uic-white.pdf}
+%	\includegraphics[scale=0.25]{latex/logos/uic.pdf}
+}
+\newcommand{\deptlogo}{\includegraphics[scale=0.5]{latex/logos/uic-full-elephantbird.pdf}}
+
+%\logo{\uiclogo}
+
+\definecolor{sislcyan}{RGB}{3,95,110}
+\definecolor{sislorange}{RGB}{255,211,36}
+\definecolor{sislred}{RGB}{255,64,0}
+\definecolor{sislyellow}{RGB}{255,243,165}
+%\definecolor{sislyellow}{RGB}{255,246,191}
+
+\setbeamercolor{structure}{fg=sislyellow}
+
+\setbeamercolor{palette primary}{fg=sislyellow,bg=sislcyan!70}
+\setbeamercolor{palette secondary}{fg=sislyellow,bg=sislcyan!80}
+\setbeamercolor{palette tertiary}{fg=sislyellow,bg=sislcyan!90}
+\setbeamercolor{palette quaternary}{fg=sislyellow,bg=sislcyan}
+
+\setbeamercolor{normal text}{fg=white,bg=black}
+\setbeamercolor{alerted text}{fg=sislred}
+\setbeamercolor{example text}{fg=sislyellow}
+
+\setbeamercolor{titlelike}{parent=palette quaternary}
+
+\setbeamercolor{block title}{fg=sislyellow,bg=sislcyan}
+\setbeamercolor{block title alerted}{use=alerted text,fg=sislyellow,bg=alerted text.fg!75!bg}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=sislorange!65!black}
+
+\setbeamercolor{item projected}{parent=item,use=item,fg=black,bg=item.fg}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!25!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!25!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=sislyellow!25!black}
+
+\setbeamercolor{sidebar}{bg=sislcyan!70}
+
+\setbeamercolor{palette sidebar primary}{fg=sislyellow}
+\setbeamercolor{palette sidebar secondary}{fg=sislyellow!75}
+\setbeamercolor{palette sidebar tertiary}{fg=sislyellow!75}
+\setbeamercolor{palette sidebar quaternary}{fg=sislyellow}
+
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+\mode
+<all>
