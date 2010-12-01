@@ -1,5 +1,5 @@
 % vim:tw=70
-\documentclass{beamer}
+\documentclass[ignorenonframetext]{beamer}
 %\documentclass{article}
 %\usepackage{beamerarticle}
 
@@ -60,7 +60,7 @@
 
 \begin{document}
 
-\mode<article>{\maketitle}
+\maketitle
 
 \section{Introduction}
 \mode<presentation>{
@@ -74,27 +74,96 @@
 \end{frame}
 }
 
-\mode<article>{
-}
+
+\subsection{Reinforcement Learning Overview}
+
+	Reinforcement Learning is an area of AI at the boundary between machine
+	learning and decision theory that also incorporates ideas from
+	psychology.  The basic learning task is to learn an agent function,
+	a function mapping a sequence of observations to an action, by
+	actively participating in and exploring an environment.  The
+	fundamental idea is that for every action the agent receives some form of
+	reward signal.  That signal is the agents indication of success, and
+	its task is to maximize the expectation of average or discounted sum
+	of rewards.  For the most part this presentation will follow the
+	the exposition given in Chapter 13 of \cite{mitchell_machine_1997},
+	however ideas will be borrowed from
+	\cite{kaelbling_reinforcement_1996} and
+	\cite{russell_artificial_2010} as well.  
 
 \begin{frame}
-	\frametitle{}
-	%\begin{itemize}
-	%\end{itemize}
+	\frametitle{What is Reinforcement Learning?}
+	\begin{block}{}
+		Reinforcement learning takes psychology, decision theory, and
+		learning theory to answery ``How should an agent learn to act?''
+	\end{block}
+	\begin{itemize}
+		\item Classical Conditioning (see Pavlov's Dog)
+		\item Utility Theory
+		\item (Partially Observable) Markov Decision Processes
+		\item Learns an ``Agent Function''
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Agent Function}
+	\begin{itemize}
+		\item $O$ is a set of observation symbols.
+		\item $A$ is a set of actions.
+	\end{itemize}
+	\begin{block}{}
+		\begin{center}
+			$f: O^* \rightarrow A $
+		\end{center}
+	\end{block}
 \end{frame}
 
 
 \section{Markov Decision Processes}
 
-\subsection{Definition}
+\subsection{Model Introduction}
+
+\begin{frame}
+	\frametitle{What is an MDP?}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Simple Example}
+\end{frame}
 
 \subsection{Policy}
 
-\subsection{Value of Policy}
+\begin{frame}
+	\frametitle{Policy Defined}
+\end{frame}
 
-\subsection{Bellman Equations}
+\begin{frame}
+	\frametitle{Value of Policy}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bellman Equations}
+\end{frame}
+
+\subsection{Learning Task}
+
+\begin{frame}
+	\frametitle{What are we learning?}
+\end{frame}
+
+\begin{frame}
+	\frametitle{What are we given?}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Model Free vs. Model Lased Learning}
+\end{frame}
 
 \section{Q-Learning}
+
+\begin{frame}
+\end{frame}
+
 
 \section{SARSA-$\lambda$}
 
@@ -103,6 +172,7 @@
 \subsection{Sources}
 \begin{frame}[allowframebreaks]
 	\frametitle{Sources}
+	\nocite{*}
 	\bibliography{reinforcement_learning}
 	\bibliographystyle{abbrv}
 \end{frame}
