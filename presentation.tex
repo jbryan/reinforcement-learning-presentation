@@ -21,6 +21,18 @@
 \usepackage{rotating}
 \usepackage[utf8]{inputenc}
 
+\usepackage{amsmath,amssymb,amsfonts,textcomp}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+%\usepackage{theorem}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{framed}
+\usepackage{url}
+\usepackage{hyperref}
 \usefonttheme{professionalfonts}
 %\usefonttheme{serif}
 
@@ -118,23 +130,67 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Uses}
+	\begin{itemize}
+		\item Game playing (e.g. back gammon)
+		\item Learning tasks with delayed feedback
+		\item Elevator Control
+		\item Robotic Control (e.g. stick balancing, car driving)
+		\item Simulation Based Approximation Methods (similar to
+			ficticious play)
+		\item Telecomunication (e.g. learning optimal
+			routing)
+	\end{itemize}
+\end{frame}
 
 \section{Markov Decision Processes}
 
 \subsection{Model Introduction}
 
+A Markov Decision Process describes a system in which an agent exists
+in a state $s_t \in S$ at time $t$.  In each state, the agent must choose
+an action $a_t \in A$.  After choosing an action, the agent will
+transition from $s_t$ to $s_{t+1}$ according to a probability
+distribution $T(s_t, a_t, s_{t+1}) = P(s_{t+1} | s_t, a_t)$.
+
 \begin{frame}
 	\frametitle{What is an MDP?}
+	\begin{block}{Definition: Markov Decision Process}
+		An MDP is a tuple $\langle S, A, T, R \rangle$ where:
+		\begin{description}
+			\item[S] is a set of states.
+			\item[A] is a set of actions.
+			\item[T] is a transition function. 
+				\[ T: S\times A\times S \rightarrow [0,1] \]
+			\item[R] is a reward function. 
+				\[ R: S\times A \rightarrow \mathbb{R} \] 
+		\end{description}
+	\end{block}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Simple Example}
+	\begin{block}{ As a running example, and as a demo at the end, we
+		will be considering this environment:}
+		An agent is in a square $10\times 10$ grid world.  Therefore $S =
+		\{0,\cdots,9\}^2$
+	\end{block}
 \end{frame}
 
 \subsection{Policy}
 
+The policy is a mapping from states to actions (or occasionally
+probability distributions over actions).  This is a complete
+prescription of how the agent should interact in an environment.
+Finding an optimal policy will be the learning task.
+
 \begin{frame}
 	\frametitle{Policy Defined}
+	\begin{block}{Definition: Policy}
+		A policy $\pi$ is a mapping from states to actions.
+		\[ \pi: S \rightarrow A \]
+	\end{block}
 \end{frame}
 
 \begin{frame}
@@ -169,6 +225,7 @@
 
 
 \section{Conclusions}
+
 \subsection{Sources}
 \begin{frame}[allowframebreaks]
 	\frametitle{Sources}
