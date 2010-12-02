@@ -173,11 +173,17 @@ distribution $T(s_t, a_t, s_{t+1}) = P(s_{t+1} | s_t, a_t)$.
 	\frametitle{Simple Example}
 	\begin{block}{ As a running example, and as a demo at the end, we
 		will be considering this environment:}
-		An agent is in a square $10\times 10$ grid world.  Therefore $S =
-		\{0,\cdots,9\}^2$.  The set of actions are $\{up, down, left,
-		right\}$.  30 of the grid squares are ``bad'' and give a reward
-		of $-1$.  2 of the grid squares are ``good'' and give a reward of
-		$1$.  Every action taken invokes a penalty of $-0.01$.
+		\begin{itemize}
+			\item An agent is in a square $10\times 10$ grid world.  Therefore $S =
+				\{0,\cdots,9\}^2$.  
+			\item The set of actions are $\{up, down, left,
+				right\}$.  
+			\item 30 of the grid squares are ``bad'' and give a reward
+				of $-1$.  
+			\item2 of the grid squares are ``good'' and give a reward of
+				$1$.  
+			\item Every action taken invokes a penalty of $-0.01$.
+		\end{itemize}
 	\end{block}
 \end{frame}
 
