@@ -3,6 +3,8 @@
 %\documentclass{article}
 %\usepackage{beamerarticle}
 
+\RequirePackage{fix-cm}
+
 \mode<presentation>{\usetheme{Darmstadt}}
 %\usetheme{default}
 %\usetheme{Singapore}
@@ -216,9 +218,9 @@ Finding an optimal policy will be the learning task.
 		reward} obtained by starting at a state $s$ and following the
 		policy $\pi$.
 		\begin{eqnarray*}	
-			V^\pi(s) &=& E[R(s_0) + \gamma (R(s_1) + \gamma( R(s_2) + \dots
+			V^\pi(s) &=& E[R(s_0,\pi(s_0)) + \gamma (R(s_1,\pi(s_1)) + \gamma( \dots
 			)) | \pi, s_0 = s]\\
-			&=& E \Bigg[\sum_{t=0}^\infty \gamma^t R(s_t) \big| \pi, s_0 =
+			&=& E \Bigg[\sum_{t=0}^\infty \gamma^t R(s_t,\pi(s_t)) \Big| \pi, s_0 =
 			s  \Bigg]
 		\end{eqnarray*}	
 		Here, $0 \leq \gamma \leq 1$ is the discount factor. If $\gamma =
@@ -231,10 +233,8 @@ Finding an optimal policy will be the learning task.
 		reward} obtained by starting at a state $s$ and following the
 		policy $\pi$.
 		\begin{eqnarray*}	
-			V^\pi(s) &=& \lim_{n \to \infty} E\Bigg[\frac{R(s_0) + R(s_1) + \dots +
-			R(s_n)}{n} \Big| \pi, s_0 = s\Bigg]\\
-			&=& \lim_{n \to \infty} E\Bigg[\frac{\sum_{t=0}^n
-			R(s_n)}{n}\Big| \pi, s_0 = s\Bigg]
+			V^\pi(s) &=& \lim_{n \to \infty} E\Bigg[\frac{\sum_{t=0}^n
+			R(s_n,\pi(s_n))}{n}\Big| \pi, s_0 = s\Bigg]
 		\end{eqnarray*}	
 \end{frame}
 
@@ -243,30 +243,61 @@ Finding an optimal policy will be the learning task.
 	The solution to an MDP is an optimal policy $\pi^*$ that maximizes
 	$V^{\pi^*}(s)$ for all $s$:
 	\[
-	\pi^* = \argmax_{\pi} E\Bigg[\sum_{t=0}^\infty \gamma^t R(s_t)\Big
-	\pi\Bigg] 
-	\]
-	This implies:
-	\[
-	\pi^*(s) = \argmax_{a\in A} \sum_{s'\in S} T(s,a,s')U(s')
+	\pi^* = \argmax_{\pi} E\Bigg[\sum_{t=0}^\infty \gamma^t
+	R(s_t,\pi(s_t))\Bigg] 
 	\]
 \end{frame}
 
-\subsection{Learning Task}
+\begin{frame}
+	\frametitle{Bellman Equations}
+	\begin{block}{Recursive Bellman Equation for $\pi^*$}
+		\[
+		\pi^*(s) = \argmax_{a\in A} R(s,a) + \gamma \sum_{s'\in S} T(s,a,s')V^*(s')
+		\]
+	\end{block}
+	\begin{block}{Recursive Bellman Equation for $V^*$ \footnotemark}
+		\begin{eqnarray*}
+			V^*(s) &=& R(s,\pi^*(s)) + \gamma \sum_{s' \in S}T(s,\pi^*(s),
+			s') V^*(s')\\
+			&=& \max_{a \in A} R(s,a) + \gamma \sum_{s' \in S}T(s,a, s') V^*(s')
+		\end{eqnarray*}
+	\end{block}
+	\footnotetext{$V^*$ is shorthand for $V^{\pi^*}$}
+\end{frame}
 
+\section{Q-Learning}
+\subsection{Learning Task}
 \begin{frame}
 	\frametitle{What are we learning?}
+	\begin{itemize}
+		\item We want to learn $\pi^*$.
+		\item We will do this by learning a $Q$ function:
+			\[
+			Q(s,a) = R(s,a) + \gamma \sum_{s' \in S}T(s,a, s') V^*(s')
+			\]
+		\item If we learn $Q(s,a)$ then 
+			\[
+			\pi^*(s) = \argmax_{a\in A} Q(s,a)
+			\]
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{What are we given?}
+	\begin{itemize}
+		\item We are given $A$ and $S$ and a sequence instances
+			$\langle s_0,a_0,r_0,s_1,a_1,r_1,\dots \rangle$
+			where $s \in S$ is observable and sampled by the environment
+			according to $T$, $a\in A$ is chosen by the agent, and $r =
+			R(s,a)$.
+		\item We are not given $T$ or $R$.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Model Free vs. Model Lased Learning}
 \end{frame}
 
-\section{Q-Learning}
 
 \begin{frame}
 \end{frame}
