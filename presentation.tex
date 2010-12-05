@@ -271,10 +271,12 @@ Finding an optimal policy will be the learning task.
 	\frametitle{What are we learning?}
 	\begin{itemize}
 		\item We want to learn $\pi^*$.
+			\pause
 		\item We will do this by learning a $Q$ function:
 			\[
 			Q(s,a) = R(s,a) + \gamma \sum_{s' \in S}T(s,a, s') V^*(s')
 			\]
+			\pause
 		\item If we learn $Q(s,a)$ then 
 			\[
 			\pi^*(s) = \argmax_{a\in A} Q(s,a)
@@ -285,19 +287,47 @@ Finding an optimal policy will be the learning task.
 \begin{frame}
 	\frametitle{What are we given?}
 	\begin{itemize}
-		\item We are given $A$ and $S$ and a sequence instances
+		\item We are given $A$ and $S$ and a sequence 
 			$\langle s_0,a_0,r_0,s_1,a_1,r_1,\dots \rangle$
 			where $s \in S$ is observable and sampled by the environment
 			according to $T$, $a\in A$ is chosen by the agent, and $r =
 			R(s,a)$.
+			\pause
 		\item We are not given $T$ or $R$.
+			\pause
+		\item We are not going to learn $T$ or $R$.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Model Free vs. Model Lased Learning}
+	\frametitle{Model Free vs. Model Based Learning}
+	\begin{block}{Model Free}
+		The agent learns to act in specific environment, but does not
+		know or learn a model of that environment.
+	\end{block}
+	\begin{block}{Model/Knowlege Based}
+		The agent learns a model of the environment and uses the model to
+		compute how to act in the environment.
+	\end{block}
 \end{frame}
 
+\subsection{Q}
+\begin{frame}
+	\frametitle{Q Recursion}
+	We can rewrite the Q function as:
+	\[
+	Q(s,a) = R(s,a) + \lambda E[Q(s',a)]
+	\]
+\end{frame}
+
+\begin{frame}
+	\frametitle{Q Approximation and Update}
+	We maintain an approximation $\hat{Q}$ of $Q$:
+	\[
+	\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
+	\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
+	\]
+\end{frame}
 
 \begin{frame}
 \end{frame}
