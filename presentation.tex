@@ -327,11 +327,35 @@ Finding an optimal policy will be the learning task.
 	\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
 	\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
 	\]
+	Where $\alpha_t(s,a)$ is the learning rate.  
+	\pause
+	This is equivalent to:
+	\[
+	\hat{Q}_{t+1}(s,a) \leftarrow (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
+	\hat{Q}_t(s',a') \big]
+	\]
+\end{frame}
+
+\subsection{Practical Considerations}
+
+\begin{frame}
+	\frametitle{Learning Rate Schedule}
+	\begin{itemize}
+		\item $\alpha_t(s,a)$ must decay over time to ensure convergance.
+		\item $\sum_t^{\infty} \alpha_t(s,a) = \infty$ 
+	\end{itemize}
+	\begin{block}{A practicle solution}
+		\[
+		\alpha_t(s,a) = \frac{1}{1 + visits(s,a)}
+		\]
+		where $visits(s,a)$ is the number of times action $a$ has been
+		taken in state $s$.
+	\end{block}
 \end{frame}
 
 \begin{frame}
+	\frametitle{Learning Policy: Exploration vs Exploitation}
 \end{frame}
-
 
 \section{SARSA-$\lambda$}
 
