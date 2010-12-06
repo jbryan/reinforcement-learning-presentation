@@ -93,7 +93,7 @@
 }
 
 
-\subsection{Reinforcement Learning Overview}
+\subsection{Overview}
 
 	Reinforcement Learning is an area of AI at the boundary between machine
 	learning and decision theory that also incorporates ideas from
@@ -318,24 +318,24 @@ Finding an optimal policy will be the learning task.
 	\]
 \end{frame}
 
-\begin{frame}[allowframebreaks]
+\begin{frame}
 	\frametitle{Q Approximation and Update}
 	We maintain an approximation $\hat{Q}$ of $Q$:
-	\[
-	\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
-	\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
-	\]
+	\begin{multline*}
+			\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) \\
+			+ \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
+		\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
+	\end{multline*}
 	Where $\alpha_t(s,a)$ is the learning rate.  
 	If $\alpha = 0$ than no learning occurs.  If $\alpha = 1$ than
 	$\hat{Q}$ is completely overwritten at each transition.
 
 	\pause
 	This is equivalent to:
-	\[
-	\hat{Q}_{t+1}(s,a) \leftarrow (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
-	\hat{Q}_t(s',a') \big]
-	\]
-
+	\begin{multline*}
+		\hat{Q}_{t+1}(s,a) \leftarrow (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) \\
+		+ \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A} \hat{Q}_t(s',a') \big]
+	\end{multline*}
 \end{frame}
 
 \subsection{Practical Considerations}
@@ -344,7 +344,9 @@ Finding an optimal policy will be the learning task.
 	\frametitle{Learning Rate Schedule}
 	\begin{itemize}
 		\item $\alpha_t(s,a)$ must decay over time to ensure convergance.
+		\pause
 		\item $\sum_t^{\infty} \alpha_t(s,a) = \infty$ 
+		\pause
 	\end{itemize}
 	\begin{block}{A practicle solution}
 		\[
@@ -408,6 +410,24 @@ Finding an optimal policy will be the learning task.
 		method for updating multiple Q values simultaneously involves
 		eligibility traces.
 	\end{block}
+\end{frame}
+
+\subsection{SARSA Update Rule}
+\begin{frame}
+	\frametitle{$s,a,r,s',a'$}
+	For each tuple $\langle s,a,r,s',a' \rangle$, we update $\hat{Q}$
+	as follows:
+	\[
+	\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma 
+	\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
+	\]
+	Note that the only difference is that we use the actual action
+	chosen for the discounted future rather than the maximum valued
+	action.
+\end{frame}
+
+\subsection{Eligibility Traces}
+\begin{frame}
 \end{frame}
 
 \section{Conclusions}
