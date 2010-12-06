@@ -238,7 +238,7 @@ Finding an optimal policy will be the learning task.
 		\end{eqnarray*}	
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 	\frametitle{Bellman Equations}
 	The solution to an MDP is an optimal policy $\pi^*$ that maximizes
 	$V^{\pi^*}(s)$ for all $s$:
@@ -248,16 +248,12 @@ Finding an optimal policy will be the learning task.
 	\]
 	There are $|A|^{|S|}$ policies.  For our example, that's $4^{100}
 	\approx 1.6\times 10^{60}$
-\end{frame}
 
-\begin{frame}
-	\frametitle{Bellman Equations}
-	\begin{block}{Recursive Bellman Equation for $\pi^*$}
+	\begin{block}{Recursive Bellman Equation for $\pi^*$ and $V^*$
+		\footnotemark}
 		\[
 		\pi^*(s) = \argmax_{a\in A} R(s,a) + \gamma \sum_{s'\in S} T(s,a,s')V^*(s')
 		\]
-	\end{block}
-	\begin{block}{Recursive Bellman Equation for $V^*$ \footnotemark}
 		\begin{eqnarray*}
 			V^*(s) &=& R(s,\pi^*(s)) + \gamma \sum_{s' \in S}T(s,\pi^*(s),
 			s') V^*(s')\\
@@ -318,11 +314,11 @@ Finding an optimal policy will be the learning task.
 	\frametitle{Q Recursion}
 	We can rewrite the Q function as:
 	\[
-	Q(s,a) = R(s,a) + \lambda E[Q(s',a)]
+	Q(s,a) = R(s,a) + \gamma E[Q(s',a)]
 	\]
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 	\frametitle{Q Approximation and Update}
 	We maintain an approximation $\hat{Q}$ of $Q$:
 	\[
@@ -330,12 +326,16 @@ Finding an optimal policy will be the learning task.
 	\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
 	\]
 	Where $\alpha_t(s,a)$ is the learning rate.  
+	If $\alpha = 0$ than no learning occurs.  If $\alpha = 1$ than
+	$\hat{Q}$ is completely overwritten at each transition.
+
 	\pause
 	This is equivalent to:
 	\[
 	\hat{Q}_{t+1}(s,a) \leftarrow (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
 	\hat{Q}_t(s',a') \big]
 	\]
+
 \end{frame}
 
 \subsection{Practical Considerations}
@@ -355,12 +355,60 @@ Finding an optimal policy will be the learning task.
 	\end{block}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 	\frametitle{Learning Policy: Exploration vs Exploitation}
+	\begin{block}{Exploration: Random Policy}
+		\begin{itemize}
+			\item Choose $a \in A$ at Random in each time step.
+			\item $\hat{Q}$ is guarenteed to converge to the true $Q$.
+		\end{itemize}
+	\end{block}
+	\begin{block}{Exploitation: Locally Optimal Policy}
+		\begin{itemize}
+			\item Choose $a = \argmax_{a\in A} \hat{Q}(s,a)$ in each state
+				$s$.
+			\item $\hat{Q}$ is only guaranteed to find a local optimum.
+		\end{itemize}
+	\end{block}
+	\begin{block}{Hybrid: Logit Quantal Response or Simulated Annealing}
+		\begin{itemize}
+			\item Choose $a$ according to this probability distribution:
+				\[
+				P(a) = \frac{e^{\beta\hat{Q}(s,a)}}{\sum_{a'\in
+				A}e^{\beta\hat{Q}(s,a')}}
+				\]
+			\item If $\beta = 0$ this is equivalent to the random policy.
+			\item As $\beta \to \infty$, this becomes the exploitative
+				policy.
+			\item $\beta$ may be increased over time (similar to simulated
+				annealing).
+		\end{itemize}
+	\end{block}
 \end{frame}
 
 \section{SARSA-$\lambda$}
-
+\subsection{Introduction}
+\begin{frame}[allowframebreaks]
+	\frametitle{How can we improve Q learning?}
+	\begin{block}{On Policy Learning}
+		Q-learning learns the Q function for the optimal policy, not the
+		policy actually being followed.  Why would we want to learn a
+		policy other than the optimal?
+		\begin{itemize}
+			\item Sometimes exploration may be ``too dangerous''.
+			\item Policy may not be entirely under agent's control (e.g.
+				multiagent settings).
+			\item On Policy Learning allows easier application of
+				eligibility traces.
+		\end{itemize}
+	\end{block}
+	\begin{block}{Update more than one Q value at a time.}
+		Q-learning only updates a single Q value at a time, so convergence
+		can take a very long time if rewards are very delayed.  A clever
+		method for updating multiple Q values simultaneously involves
+		eligibility traces.
+	\end{block}
+\end{frame}
 
 \section{Conclusions}
 
