@@ -1,6 +1,6 @@
 % vim:tw=70
 \documentclass[ignorenonframetext]{beamer}
-%\documentclass{article}
+%\documentclass[10pt]{article}
 %\usepackage{beamerarticle}
 
 \RequirePackage{fix-cm}
@@ -36,6 +36,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usefonttheme{professionalfonts}
+\mode<article>{\usepackage{natbib}}
 %\usefonttheme{serif}
 
 \def\nq{\hspace{-1em}}
@@ -106,8 +107,8 @@
 	of rewards.  For the most part this presentation will follow 
 	the exposition given in Chapter 13 of \cite{mitchell_machine_1997},
 	however ideas will be borrowed from
-	\cite{kaelbling_reinforcement_1996} and
-	\cite{russell_artificial_2010} as well.  
+	\cite{kaelbling_reinforcement_1996, russell_artificial_2010} as well.  The original presentation
+	of Q-learning may be found in \cite{watkins_learning_1989}. 
 
 \begin{frame}
 	\frametitle{What is Reinforcement Learning?}
@@ -252,12 +253,16 @@ Finding an optimal policy will be the learning task.
 	\begin{block}{Recursive Bellman Equation for $\pi^*$ and $V^*$
 		\footnotemark}
 		\[
-		\pi^*(s) = \argmax_{a\in A} R(s,a) + \gamma \sum_{s'\in S} T(s,a,s')V^*(s')
+		\pi^*(s) = \argmax_{a\in A} \overbrace{R(s,a)}^\text{Immediate
+		Reward} + \overbrace{\gamma \sum_{s'\in S}
+		T(s,a,s')V^*(s')}^\text{Expected Future}
 		\]
 		\begin{eqnarray*}
-			V^*(s) &=& R(s,\pi^*(s)) + \gamma \sum_{s' \in S}T(s,\pi^*(s),
-			s') V^*(s')\\
-			&=& \max_{a \in A} R(s,a) + \gamma \sum_{s' \in S}T(s,a, s') V^*(s')
+			V^*(s) &=& \overbrace{R(s,\pi^*(s))}^\text{Immediate Reward}+
+			\overbrace{\gamma \sum_{s' \in S}T(s,\pi^*(s), s')
+			V^*(s')}^\text{Expected Future}\\ 
+			&=& \max_{a \in A} R(s,a) + \gamma \sum_{s' \in S}T(s,a, s')
+			V^*(s')
 		\end{eqnarray*}
 	\end{block}
 	\footnotetext{$V^*$ is shorthand for $V^{\pi^*}$}
@@ -321,36 +326,44 @@ Finding an optimal policy will be the learning task.
 \begin{frame}
 	\frametitle{Q Approximation and Update}
 	We maintain an approximation $\hat{Q}$ of $Q$:
-	\begin{multline*}
-			\hat{Q}_{t+1}(s,a) \leftarrow \hat{Q}_t(s,a) \\
-			+ \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
-		\hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
-	\end{multline*}
+	\begin{align*}
+		\hat{Q}_{t+1}(s,a) \leftarrow & \hat{Q}_t(s,a) \\
+		& + \alpha_t(s,a)\big[ \overbrace{R(s,a) + \gamma \max_{a' \in A}
+		\hat{Q}_t(s',a')}^\text{New Estimate} -
+		\overbrace{\hat{Q}_t(s,a)}^\text{Old Estimate} \big]
+	\end{align*}
 	Where $\alpha_t(s,a)$ is the learning rate.  
 	If $\alpha = 0$ then no learning occurs.  If $\alpha = 1$ than
 	$\hat{Q}$ is completely overwritten at each transition.
 
 	\pause
 	This is equivalent to:
-	\begin{multline*}
-		\hat{Q}_{t+1}(s,a) \leftarrow (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) \\
-		+ \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A} \hat{Q}_t(s',a') \big]
-	\end{multline*}
+	\begin{align*}
+		\hat{Q}_{t+1}(s,a) \leftarrow & (1-\alpha_t(s,a))\hat{Q}_{t}(s,a) \\
+		& + \alpha_t(s,a)\big[ R(s,a) + \gamma \max_{a' \in A}
+		\hat{Q}_t(s',a') \big]
+	\end{align*}
 \end{frame}
 
 \subsection{Practical Considerations}
 
 \begin{frame}
 	\frametitle{Learning Rate Schedule}
-	\begin{itemize}
-		\item $\alpha_t(s,a)$ must decay over time to ensure convergence.
-		\pause
-		\item $\sum_t^{\infty} \alpha_t(s,a) = \infty$ 
-		\pause
-	\end{itemize}
+	\begin{block}{Requirements on Schedule}
+		\begin{itemize}
+			\item $\alpha_t(s,a)$ must decay over time to ensure convergence.
+				\pause
+			\item $\sum_{t(i,s,a)}^{\infty} \alpha_{t(i,s,a)}(s,a) = \infty$
+				where $t(i,s,a)$ is the time state $s$ and action $a$ is visited
+				for the $i$'th time.
+				\pause
+			\item $\sum_{t(i,s,a)}^{\infty} \alpha_{t(i,s,a)}(s,a)^2 < \infty$ 
+				\pause
+		\end{itemize}
+	\end{block}
 	\begin{block}{A practical solution}
 		\[
-		\alpha_t(s,a) = \frac{1}{1 + visits(s,a)}
+		\alpha_t(s,a) = \frac{1}{1 + visits_t(s,a)}
 		\]
 		where $visits(s,a)$ is the number of times action $a$ has been
 		taken in state $s$.
@@ -429,8 +442,8 @@ Finding an optimal policy will be the learning task.
 \subsection{Eligibility Traces}
 \begin{frame}
 	\frametitle{Atomic Bread Crumbs}	
-	The key idea is to leave exponentially decaying traces identifying
-	actions and states on the path to the current state.
+	The key idea is to leave exponentially decaying traces ($e(s,a)$)
+	identifying actions and states on the path to the current state.
 	\begin{block}{Update Algorithm}
 		\begin{enumerate}
 			\item Initialize $e(s,a) \leftarrow 0, \forall s\in S, a\in A$.
@@ -439,13 +452,14 @@ Finding an optimal policy will be the learning task.
 					\item $e(\hat s,\hat a) \leftarrow \gamma\lambda e(\hat
 						s,\hat a) \forall \hat s \in S, \hat a \in A$
 					\item $e(s,a) \leftarrow e(s,a) + 1$
+					\item $\delta \leftarrow R(s,a) + \gamma \hat{Q}_t(s',a') -
+						\hat{Q}_t(s,a)$
 					\item $\forall \hat s \in S, \hat a \in A$
-						\begin{multline*}
+						\[
 						\hat{Q}_{t+1}(\hat s,\hat a) \leftarrow \hat{Q}_t(\hat
-						s,\hat a) + \\
-						e(\hat s, \hat a) \alpha_t(\hat s,\hat a)\big[ R(s,a) +
-						\gamma \hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
-						\end{multline*}
+						s,\hat a) +
+						e(\hat s, \hat a) \alpha_t(\hat s,\hat a)\delta
+						\]
 				\end{enumerate}
 		\end{enumerate}
 	\end{block}
@@ -475,7 +489,8 @@ Finding an optimal policy will be the learning task.
 	\frametitle{Sources}
 	\nocite{*}
 	\bibliography{reinforcement_learning}
-	\bibliographystyle{abbrv}
+	\mode<article>{\bibliographystyle{plainnat}}
+	\mode<presentation>{\bibliographystyle{plain}}
 \end{frame}
 \end{document}
 
