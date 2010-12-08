@@ -428,9 +428,47 @@ Finding an optimal policy will be the learning task.
 
 \subsection{Eligibility Traces}
 \begin{frame}
+	\frametitle{Atomic Bread Crumbs}	
+	The key idea is to leave exponentially decaying traces identifying
+	actions and states on the path to the current state.
+	\begin{block}{Update Algorithm}
+		\begin{enumerate}
+			\item Initialize $e(s,a) \leftarrow 0, \forall s\in S, a\in A$.
+			\item For each $\langle s,a,r,s',a'\rangle$ tuple received:
+				\begin{enumerate}
+					\item $e(\hat s,\hat a) \leftarrow \gamma\lambda e(\hat
+						s,\hat a) \forall \hat s \in S, \hat a \in A$
+					\item $e(s,a) \leftarrow e(s,a) + 1$
+					\item $\forall \hat s \in S, \hat a \in A$
+						\begin{multline*}
+						\hat{Q}_{t+1}(\hat s,\hat a) \leftarrow \hat{Q}_t(\hat
+						s,\hat a) + \\
+						e(\hat s, \hat a) \alpha_t(\hat s,\hat a)\big[ R(s,a) +
+						\gamma \hat{Q}_t(s',a') - \hat{Q}_t(s,a) \big]
+						\end{multline*}
+				\end{enumerate}
+		\end{enumerate}
+	\end{block}
 \end{frame}
 
 \section{Conclusions}
+\begin{frame}
+	\frametitle{Demo}
+	\dots and now for a demo comparing Q and SARSA-$\lambda$ learning!
+\end{frame}
+
+\begin{frame}
+	\frametitle{Further extensions}
+	\begin{itemize}
+		\item Partial observability.
+		\item Continuous action, state, and observation spaces.
+		\item Q function approximators (e.g. neural networks)
+		\item Exploitation vs. Exploration
+		\item Hybrid model free / model based learning (e.g. feudal
+			architectures)
+		\item Alternative optimality criteria.
+	\end{itemize}
+\end{frame}
 
 \subsection{Sources}
 \begin{frame}[allowframebreaks]
