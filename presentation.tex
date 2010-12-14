@@ -353,11 +353,11 @@ Finding an optimal policy will be the learning task.
 		\begin{itemize}
 			\item $\alpha_t(s,a)$ must decay over time to ensure convergence.
 				\pause
-			\item $\sum_{t(i,s,a)}^{\infty} \alpha_{t(i,s,a)}(s,a) = \infty$
+			\item $\sum_{i}^{\infty} \alpha_{t(i,s,a)}(s,a) = \infty$
 				where $t(i,s,a)$ is the time state $s$ and action $a$ is visited
 				for the $i$'th time.
 				\pause
-			\item $\sum_{t(i,s,a)}^{\infty} \alpha_{t(i,s,a)}(s,a)^2 < \infty$ 
+			\item $\sum_{i}^{\infty} \alpha_{t(i,s,a)}(s,a)^2 < \infty$ 
 				\pause
 		\end{itemize}
 	\end{block}
